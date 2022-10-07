@@ -22,9 +22,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>be.atbash.utils</groupId>
-    <artifactId>utils-parent</artifactId>
-    <version>1.2.0</version>
-    <packaging>pom</packaging>
+    <artifactId>utils-jsf</artifactId>
+    <version>1.1.1-SNAPSHOT</version>
+
+    <packaging>jar</packaging>
+    <name>Utilities for JSF 2.x</name>
+    <description>Some utilities for JSF 2.x</description>
+
+    <url>https://github.com/atbashEE/atbash-utils-jsf</url>
 
     <properties>
 
@@ -41,10 +46,7 @@
 
     </properties>
 
-    <name>Atbash Utils</name>
     <inceptionYear>2014</inceptionYear> <!-- Some classes are created for the first time in that year -->
-    <description>Atbash Utils parent</description>
-    <url>https://github.com/atbashEE/atbash-utils</url>
 
     <developers>
         <developer>
@@ -66,24 +68,30 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/atbashEE/atbash-utils.git</connection>
-        <developerConnection>scm:git:ssh://github.com:atbashEE/atbash-utils.git</developerConnection>
-        <url>http://github.com/atbashEE/atbash-utils/tree/master</url>
+        <connection>scm:git:git://github.com/atbashEE/atbash-utils-jsf.git</connection>
+        <developerConnection>scm:git:ssh://github.com:atbashEE/atbash-utils-jsf.git</developerConnection>
+        <url>http://github.com/atbashEE/atbash-utils-jsf/tree/javax</url>
     </scm>
 
-    <modules>
-        <module>test-resources</module>
-        <module>utils-se</module>
-        <!--module>utils-cdi</module>
-        <module>utils-jsf</module-->
-    </modules>
-
     <dependencies>
-        <!-- logging -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.36</version>
+            <groupId>javax.faces</groupId>
+            <artifactId>javax.faces-api</artifactId>
+            <version>2.3</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>3.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>be.atbash.utils</groupId>
+            <artifactId>utils-se</artifactId>
+            <version>1.1.0</version>
         </dependency>
 
         <!-- testing -->
@@ -94,11 +102,18 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
         <plugins>
-            <!--plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>animal-sniffer-maven-plugin</artifactId>
                 <version>1.16</version>
@@ -117,7 +132,33 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin-->
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <execution>
+                        <id>test-jar</id>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>**/Fake*</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Automatic-Module-Name>be.atbash.util.jsf</Automatic-Module-Name>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>org.asciidoctor</groupId>
